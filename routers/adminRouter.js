@@ -12,6 +12,6 @@ router.get('/dataverifikasi', adminController.dataPerluVerifikasi, authMiddlewar
 router.get('/dataanggota', adminController.dataanggota, authMiddleware.authMiddleware)
 router.post('/verifikasidata', adminController.verifikasiPendaftar, authMiddleware.authMiddleware)
 router.post('/tolakverifikasi', adminController.tolakVerifikasi, authMiddleware.authMiddleware)
-
+router.get('/anggotaperbulan', adminController.dataAnggotaPerbulan, authMiddleware.authMiddleware)
 
 module.exports = router

@@ -102,6 +102,7 @@ exports.simpan = async function (req, res) {
             email,
             no_telepon,
             profesi,
+            agama,
             profesi_lainnya,
             pekerjaan,
             instansi,
@@ -154,14 +155,14 @@ exports.simpan = async function (req, res) {
         const query = `
         INSERT INTO pendaftar (
         nama_lengkap, nik, tempat_lahir, tanggal_lahir, jenis_kelamin, email,
-        no_telepon, profesi, profesi_lainnya, pekerjaan, instansi, tahun_berangkat,
+        no_telepon, profesi,agama, profesi_lainnya, pekerjaan, instansi, tahun_berangkat,
         tahun_pulang, nama_perusahaan_magang, bidang_kerja_magang, provinsi,
         kabupaten, kecamatan, desa, rt, rw, jalan, kode_pos, nama_usaha, bidang_usaha, alamat_usaha, tahun_berdiri, karyawan_usaha, nama_perusahaan_bekerja,
         jabatan_bekerja, alamat_perusahaan_bekerja,status_verifikasi) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)`
 
         const value = [
             nama_lengkap, nik, tempat_lahir, tanggal_lahir, jenis_kelamin, email,
-            no_telepon, profesi, profesi_lainnya, pekerjaan, instansi, tahun_berangkat,
+            no_telepon, profesi,agama, profesi_lainnya, pekerjaan, instansi, tahun_berangkat,
             tahun_pulang, nama_perusahaan_magang, bidang_kerja_magang, provinsi,
             kabupaten, kecamatan, desa, rt, rw, jalan, kode_pos, nama_usaha, bidang_usaha, alamat_usaha, tahun_berdiri, karyawan_usaha, nama_perusahaan_bekerja,
             jabatan_bekerja, alamat_perusahaan_bekerja,"belum di verifikasi"
@@ -209,7 +210,7 @@ exports.ambilData = async function (req, res) {
 exports.cardData = async function(req, res){
     const {id} = req.query.id
     try {
-        const query =  `SELECT url_card FROM pendaftar WHERE id = '${id}'`
+        const query =  `SELECT url_card FROM anggota WHERE id = '${id}'`
         const [rows] = await pool.execute(query)
         res.status(200).json({
             message: 'card',
