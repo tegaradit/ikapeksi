@@ -55,7 +55,7 @@ exports.jumlahPerluDiverikasi = async function (req, res) {
 }
 exports.jumlahAnggota = async function (req, res) {
     try {
-        const query = `SELECT COUNT(*) AS count FROM angoota WHERE`
+        const query = `SELECT COUNT(*) AS count FROM anggota`
         const [rows] = await pool.execute(query);
         const count = rows[0].count;
         res.status(200).json({
