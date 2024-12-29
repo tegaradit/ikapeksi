@@ -136,7 +136,7 @@ exports.simpan = async function (req, res) {
         if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) errors.push('Email harus dalam format yang valid.');
         if (!no_telepon || !/^[0-9]{10,15}$/.test(no_telepon)) errors.push('Nomor telepon harus berupa angka dengan panjang 10-15 karakter.');
         if (!profesi || typeof profesi !== 'string') errors.push('Profesi harus berupa string dan tidak boleh kosong.');
-        if (!pekerjaan || typeof pekerjaan !== 's   tring') errors.push('Pekerjaan harus berupa string dan tidak boleh kosong.');
+        if (!pekerjaan || typeof pekerjaan !== 'string') errors.push('Pekerjaan harus berupa string dan tidak boleh kosong.');
         if (!instansi || typeof instansi !== 'string') errors.push('Instansi harus berupa string dan tidak boleh kosong.');
         if (!provinsi || typeof provinsi !== 'string') errors.push('Provinsi harus berupa string dan tidak boleh kosong.');
         if (!kabupaten || typeof kabupaten !== 'string') errors.push('Kabupaten harus berupa string dan tidak boleh kosong.');
@@ -158,7 +158,7 @@ exports.simpan = async function (req, res) {
         no_telepon, profesi,agama, profesi_lainnya, pekerjaan, instansi, tahun_berangkat,
         tahun_pulang, nama_perusahaan_magang, bidang_kerja_magang, provinsi,
         kabupaten, kecamatan, desa, rt, rw, jalan, kode_pos, nama_usaha, bidang_usaha, alamat_usaha, tahun_berdiri, karyawan_usaha, nama_perusahaan_bekerja,
-        jabatan_bekerja, alamat_perusahaan_bekerja,status_verifikasi) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)`
+        jabatan_bekerja, alamat_perusahaan_bekerja,status_verifikasi) VALUES (?,?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)`
 
         const value = [
             nama_lengkap, nik, tempat_lahir, tanggal_lahir, jenis_kelamin, email,
@@ -172,9 +172,10 @@ exports.simpan = async function (req, res) {
         return res.status(200).json({ message: 'Data berhasil disimpan' })
         
 
-    } catch (error) {
-        return res.status(500).json({ error: "internal server error" })
-    }
+    }catch (error) {
+            console.error("Error:", error); // Menampilkan error di console
+            return res.status(500).json({ error: "Internal server error", details: error.message });
+        }
 }
 
 

@@ -123,7 +123,7 @@ exports.dataBanyakPendaftar = async function (req, res) {
         const countQuery = `
             SELECT COUNT(*) as total FROM pendaftar
             WHERE status_verifikasi = 'belum di verifikasi'
-            AND (nama LIKE ? OR email LIKE ?)
+            AND (nama_lengkap LIKE ? OR email LIKE ?)
         `;
         const [countResult] = await pool.execute(countQuery, [searchQuery, searchQuery]);
         const totalItems = countResult[0].total;
