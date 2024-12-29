@@ -76,7 +76,7 @@ exports.dataPerluVerifikasi = async function (req, res) {
         const query = `
             SELECT * FROM pendaftar
             WHERE status_verifikasi = 'menunggu konfirmasi admin'
-            AND (nama LIKE ? OR email LIKE ?)
+            AND (nama_lengkap LIKE ? OR email LIKE ?)
             LIMIT ? OFFSET ?
         `;
         const searchQuery = `%${search}%`;
@@ -84,7 +84,7 @@ exports.dataPerluVerifikasi = async function (req, res) {
         const countQuery = `
             SELECT COUNT(*) as total FROM pendaftar
             WHERE status_verifikasi = 'menunggu konfirmasi admin'
-            AND (nama LIKE ? OR email LIKE ?)
+            AND (nama_lengkap LIKE ? OR email LIKE ?)
         `;
         const [countResult] = await pool.execute(countQuery, [searchQuery, searchQuery]);
         const totalItems = countResult[0].total;
@@ -113,11 +113,12 @@ exports.dataBanyakPendaftar = async function (req, res) {
         const pageSize = Math.max(parseInt(limit, 10), 1);
         const offset = (currentPage - 1) * pageSize;
         const query = `
-            SELECT * FROM pendaftar
-            WHERE status_verifikasi = 'belum di verifikasi'
-            AND (nama LIKE ? OR email LIKE ?)
-            LIMIT ? OFFSET ?
-        `;
+    SELECT * FROM pendaftar
+    WHERE status_verifikasi = 'belum di verifikasi'
+    AND (nama_lengkap LIKE ? OR email LIKE ?)
+    LIMIT ? OFFSET ?
+`;
+
         const searchQuery = `%${search}%`;
         const [rows] = await pool.execute(query, [searchQuery, searchQuery, pageSize, offset]);
         const countQuery = `
@@ -128,6 +129,10 @@ exports.dataBanyakPendaftar = async function (req, res) {
         const [countResult] = await pool.execute(countQuery, [searchQuery, searchQuery]);
         const totalItems = countResult[0].total;
         const totalPages = Math.ceil(totalItems / pageSize);
+        console.log("Query Parameters:", req.query);
+        console.log("Search Query:", `%${search}%`);
+        console.log("Pagination:", { page: currentPage, limit: pageSize, offset });
+
         res.status(200).json({
             message: 'Data pendaftar yang belum diverifikasi',
             data: rows,
@@ -298,7 +303,7 @@ exports.dataanggota = async function (req, res) {
         const query = `
             SELECT * FROM pendaftar
             WHERE status_verifikasi = 'anggota'
-            AND (nama LIKE ? OR email LIKE ?)
+            AND (nama_lengkap LIKE ? OR email LIKE ?)
             LIMIT ? OFFSET ?
         `;
         const searchQuery = `%${search}%`;
@@ -306,7 +311,7 @@ exports.dataanggota = async function (req, res) {
         const countQuery = `
             SELECT COUNT(*) as total FROM pendaftar
             WHERE status_verifikasi = 'anggota'
-            AND (nama LIKE ? OR email LIKE ?)
+            AND (nama_lengkap LIKE ? OR email LIKE ?)
         `;
         const [countResult] = await pool.execute(countQuery, [searchQuery, searchQuery]);
         const totalItems = countResult[0].total;
