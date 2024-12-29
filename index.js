@@ -4,6 +4,7 @@ require('dotenv').config();
 const authRoutes = require('./routers/authRouter');
 const pendaftarRouter = require('./routers/pendaftarRouter')
 const adminRoutes = require('./routers/adminRouter')
+const path = require('path');
 
 
 const cookieParser = require('cookie-parser');
@@ -15,6 +16,7 @@ app.use(cookieParser());
 app.use('/pendaftar', pendaftarRouter)
 app.use('/auth', authRoutes);
 app.use('/admin', adminRoutes);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.get('/test', (req, res) => {
     res.send('request masuk')
