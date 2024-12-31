@@ -349,3 +349,71 @@ exports.dataAnggotaPerbulan = (req, res) => {
         });
     });
 };
+
+exports.editData = async function (req, res) {
+    const { id, email, nama_lengkap, no_telepon, oldPassword, newPassword } = req.body;
+
+    try {
+        // Validasi input
+        if (!id || !email || !nama_lengkap || !no_telepon) {
+            return res.status(400).json({ message: 'ID, email, nama lengkap, dan no telepon wajib diisi' });
+        }
+
+        // Mulai transaksi
+        await pool.query('START TRANSACTION');
+
+        // Update data pengguna
+        const [updateResult] = await pool.query(
+            `UPDATE users SET email = ?, nama_lengkap = ?, no_telepon = ? WHERE id = ?`,
+            [email, nama_lengkap, no_telepon, id]
+        );
+
+        if (updateResult.affectedRows === 0) {
+            await pool.query('ROLLBACK');
+            return res.status(404).json({ message: 'Pengguna tidak ditemukan' });
+        }
+
+        // Jika password ingin diubah
+        if (oldPassword && newPassword) {
+            // Ambil data pengguna
+            const [rows] = await pool.query(`SELECT password FROM users WHERE id = ?`, [id]);
+
+            if (rows.length === 0) {
+                await pool.query('ROLLBACK');
+                return res.status(404).json({ message: 'Pengguna tidak ditemukan' });
+            }
+
+            const user = rows[0];
+
+            // Verifikasi password lama
+            const isMatch = await bcrypt.compare(oldPassword, user.password);
+            if (!isMatch) {
+                await pool.query('ROLLBACK');
+                return res.status(401).json({ message: 'Password lama tidak sesuai' });
+            }
+
+            // Hash password baru
+            const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+            // Update password di database
+            const [passwordResult] = await pool.query(
+                `UPDATE users SET password = ? WHERE id = ?`,
+                [hashedPassword, id]
+            );
+
+            if (passwordResult.affectedRows === 0) {
+                await pool.query('ROLLBACK');
+                return res.status(404).json({ message: 'Gagal mengubah password' });
+            }
+        }
+
+        // Commit transaksi
+        await pool.query('COMMIT');
+
+        res.status(200).json({ message: 'Data pengguna berhasil diperbarui' });
+    } catch (error) {
+        console.error(error);
+        await pool.query('ROLLBACK');
+        res.status(500).json({ message: 'Terjadi kesalahan pada server' });
+    }
+};

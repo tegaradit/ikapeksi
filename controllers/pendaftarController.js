@@ -127,27 +127,27 @@ exports.simpan = async function (req, res) {
             jabatan_bekerja,
             alamat_perusahaan_bekerja
         } = req.body;
-        const errors = [];
-        if (!nama_lengkap || typeof nama_lengkap !== 'string') errors.push('Nama lengkap harus berupa string dan tidak boleh kosong.');
-        if (!nik || !/^[0-9]{16}$/.test(nik)) errors.push('NIK harus berupa 16 digit angka.');
-        if (!tempat_lahir || typeof tempat_lahir !== 'string') errors.push('Tempat lahir harus berupa string dan tidak boleh kosong.');
-        if (!tanggal_lahir || !/\d{4}-\d{2}-\d{2}/.test(tanggal_lahir)) errors.push('Tanggal lahir harus dalam format YYYY-MM-DD.');
-        if (!jenis_kelamin || (jenis_kelamin !== 'laki-laki' && jenis_kelamin !== 'perempuan')) errors.push('Jenis kelamin harus "laki-laki" atau "perempuan".');
-        if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) errors.push('Email harus dalam format yang valid.');
-        if (!no_telepon || !/^[0-9]{10,15}$/.test(no_telepon)) errors.push('Nomor telepon harus berupa angka dengan panjang 10-15 karakter.');
-        if (!profesi || typeof profesi !== 'string') errors.push('Profesi harus berupa string dan tidak boleh kosong.');
-        if (!pekerjaan || typeof pekerjaan !== 'string') errors.push('Pekerjaan harus berupa string dan tidak boleh kosong.');
-        if (!instansi || typeof instansi !== 'string') errors.push('Instansi harus berupa string dan tidak boleh kosong.');
-        if (!provinsi || typeof provinsi !== 'string') errors.push('Provinsi harus berupa string dan tidak boleh kosong.');
-        if (!kabupaten || typeof kabupaten !== 'string') errors.push('Kabupaten harus berupa string dan tidak boleh kosong.');
-        if (!kecamatan || typeof kecamatan !== 'string') errors.push('Kecamatan harus berupa string dan tidak boleh kosong.');
-        if (!desa || typeof desa !== 'string') errors.push('Desa harus berupa string dan tidak boleh kosong.');
-        if (!rt || !/^[0-9]+$/.test(rt)) errors.push('RT harus berupa angka.');
-        if (!rw || !/^[0-9]+$/.test(rw)) errors.push('RW harus berupa angka.');
-        if (!jalan || typeof jalan !== 'string') errors.push('Jalan harus berupa string dan tidak boleh kosong.');
-        if (!kode_pos || !/^[0-9]{5}$/.test(kode_pos)) errors.push('Kode pos harus berupa 5 digit angka.');
-        if (tahun_berdiri && !/^[0-9]{4}$/.test(tahun_berdiri)) errors.push('Tahun berdiri harus berupa 4 digit angka.');
-        if (karyawan_usaha && (typeof karyawan_usaha !== 'number' || karyawan_usaha < 0)) errors.push('Jumlah karyawan usaha harus berupa angka positif.');
+        // const errors = [];
+        // if (!nama_lengkap || typeof nama_lengkap !== 'string') errors.push('Nama lengkap harus berupa string dan tidak boleh kosong.');
+        // if (!nik || !/^[0-9]{16}$/.test(nik)) errors.push('NIK harus berupa 16 digit angka.');
+        // if (!tempat_lahir || typeof tempat_lahir !== 'string') errors.push('Tempat lahir harus berupa string dan tidak boleh kosong.');
+        // if (!tanggal_lahir || !/\d{4}-\d{2}-\d{2}/.test(tanggal_lahir)) errors.push('Tanggal lahir harus dalam format YYYY-MM-DD.');
+        // if (!jenis_kelamin || (jenis_kelamin !== 'laki-laki' && jenis_kelamin !== 'perempuan')) errors.push('Jenis kelamin harus "laki-laki" atau "perempuan".');
+        // if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) errors.push('Email harus dalam format yang valid.');
+        // if (!no_telepon || !/^[0-9]{10,15}$/.test(no_telepon)) errors.push('Nomor telepon harus berupa angka dengan panjang 10-15 karakter.');
+        // if (!profesi || typeof profesi !== 'string') errors.push('Profesi harus berupa string dan tidak boleh kosong.');
+        // if (!pekerjaan || typeof pekerjaan !== 'string') errors.push('Pekerjaan harus berupa string dan tidak boleh kosong.');
+        // if (!instansi || typeof instansi !== 'string') errors.push('Instansi harus berupa string dan tidak boleh kosong.');
+        // if (!provinsi || typeof provinsi !== 'string') errors.push('Provinsi harus berupa string dan tidak boleh kosong.');
+        // if (!kabupaten || typeof kabupaten !== 'string') errors.push('Kabupaten harus berupa string dan tidak boleh kosong.');
+        // if (!kecamatan || typeof kecamatan !== 'string') errors.push('Kecamatan harus berupa string dan tidak boleh kosong.');
+        // if (!desa || typeof desa !== 'string') errors.push('Desa harus berupa string dan tidak boleh kosong.');
+        // if (!rt || !/^[0-9]+$/.test(rt)) errors.push('RT harus berupa angka.');
+        // if (!rw || !/^[0-9]+$/.test(rw)) errors.push('RW harus berupa angka.');
+        // if (!jalan || typeof jalan !== 'string') errors.push('Jalan harus berupa string dan tidak boleh kosong.');
+        // if (!kode_pos || !/^[0-9]{5}$/.test(kode_pos)) errors.push('Kode pos harus berupa 5 digit angka.');
+        // if (tahun_berdiri && !/^[0-9]{4}$/.test(tahun_berdiri)) errors.push('Tahun berdiri harus berupa 4 digit angka.');
+        // if (karyawan_usaha && (typeof karyawan_usaha !== 'number' || karyawan_usaha < 0)) errors.push('Jumlah karyawan usaha harus berupa angka positif.');
 
         if (errors.length > 0) {
             return res.status(400).json({ errors });
